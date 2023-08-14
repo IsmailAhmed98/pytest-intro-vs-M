@@ -14,9 +14,13 @@ pipeline{
                 sh 'python3 ops.py'
             }
         }
-        withSonarQubeEnv('SONARQUBE'){
-            sh 'python3 ops.py sonar:sonar -Dsonar.organization=ismailahmed'
+        stage('sonar'){
+            steps{
+                withSonarQubeEnv('SONARQUBE'){
+                            sh 'python3 ops.py sonar:sonar -Dsonar.organization=ismailahmed'
+            }
         }
+    }
         stage('Test') {
             steps {
                 sh '''pip install pytest
