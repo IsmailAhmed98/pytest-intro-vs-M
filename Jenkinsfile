@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    trigger{
+        pollSCM(* * * * *)
+    }
     stages{
         stage('clone'){
             steps{
@@ -10,6 +13,9 @@ pipeline{
             steps{
                 sh 'python3 ops.py'
             }
+        }
+        withSonarQubeEnv('SONARQUBE'){
+            sh 'python3 ops.py sonar:sonar -Dsonar.organization=ismailahmed'
         }
         stage('Test') {
             steps {
